@@ -118,6 +118,14 @@
                             </div>
                         </div>
 
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Background Color</label>
+                            <div class="flex items-center space-x-2">
+                                <input type="color" id="backgroundColor" value="#ffffff" class="h-10 w-12 rounded cursor-pointer border-none bg-transparent">
+                                <span id="bgColorHex" class="text-xs text-gray-400 font-mono">#FFFFFF</span>
+                            </div>
+                        </div>
+
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Text Size Scale</label>
@@ -187,6 +195,8 @@
         const textSizeValue = document.getElementById('textSizeValue');
         const textColorInput = document.getElementById('textColor');
         const colorHex = document.getElementById('colorHex');
+        const backgroundColorInput = document.getElementById('backgroundColor');
+        const bgColorHex = document.getElementById('bgColorHex');
         const toggleBold = document.getElementById('toggleBold');
         const toggleItalic = document.getElementById('toggleItalic');
         const processBtn = document.getElementById('processBtn');
@@ -209,6 +219,11 @@
         // UI Event Listeners
         textColorInput.oninput = (e) => {
             colorHex.innerText = e.target.value.toUpperCase();
+            drawFrame(audioPlayer.currentTime);
+        };
+        
+        backgroundColorInput.oninput = (e) => {
+            bgColorHex.innerText = e.target.value.toUpperCase();
             drawFrame(audioPlayer.currentTime);
         };
         
@@ -273,7 +288,7 @@
             const offset = parseFloat(syncOffsetInput.value) / 1000;
             const currentTime = Math.max(0, rawTime + offset);
 
-            ctx.fillStyle = '#ffffff';
+            ctx.fillStyle = backgroundColorInput.value;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             const currentSub = transcriptionData.find(sub => currentTime >= sub.start && currentTime <= sub.end);
